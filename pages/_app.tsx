@@ -1,20 +1,16 @@
 import '../styles/globals.scss';
 
-import { Breadcrumb, Button, Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import { Footer } from 'antd/lib/layout/layout';
 import type { AppProps } from 'next/app';
-import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 
+import { Breadcrumbs } from '../components/layout/breadcrumbs';
+import { Navbar } from '../components/layout/navbar';
 import classes from './App.module.scss';
 const { Header, Content } = Layout;
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const router = useRouter();
-
-  const homeClickHandler = () => router.push('/');
-  const eventsClickHandler = () => router.push('/events');
-
   return (
     <>
       <Head>
@@ -24,15 +20,10 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
       <Layout>
         <Header>
-          <Menu theme="dark" mode="horizontal">
-            <Menu.Item onClick={homeClickHandler}>Home</Menu.Item>
-            <Menu.Item onClick={eventsClickHandler}>Events</Menu.Item>
-          </Menu>
+          <Navbar />
         </Header>
         <Content className={classes['layout__content__wrapper']}>
-          <Breadcrumb className={classes['breadcrumb']}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs />
           <div className={classes['layout__content']}>
             <Component {...pageProps} />
           </div>
