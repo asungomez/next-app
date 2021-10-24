@@ -1,12 +1,10 @@
 import { Card, Col, Image, List, Row, Typography } from 'antd';
 
 import { Event } from '../../dummy-data';
-const { Title, Text } = Typography;
-import {
-  CalendarOutlined,
-  EnvironmentOutlined,
-  LikeTwoTone,
-} from '@ant-design/icons';
+const { Title } = Typography;
+import { CalendarOutlined, EnvironmentOutlined } from '@ant-design/icons';
+
+import { Date } from '../date/date';
 
 type EventDetailProps = {
   event: Event;
@@ -19,7 +17,7 @@ export const EventDetails: React.FC<EventDetailProps> = ({ event }) => (
         <Col span={24} md={{ span: 8 }}>
           <Image src={`/${event.image}`} placeholder alt={event.title} />
         </Col>
-        <Col span={24} md={{span: 16}}>
+        <Col span={24} md={{ span: 16 }}>
           <Title>{event.title}</Title>
           <Card>
             <List>
@@ -32,7 +30,7 @@ export const EventDetails: React.FC<EventDetailProps> = ({ event }) => (
               <List.Item>
                 <List.Item.Meta
                   avatar={<CalendarOutlined />}
-                  title={event.date}
+                  title={<Date date={event.date} />}
                 />
               </List.Item>
               <List.Item>

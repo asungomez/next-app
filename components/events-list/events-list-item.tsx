@@ -3,6 +3,7 @@ import { List } from 'antd';
 import Link from 'next/link';
 
 import { Event } from '../../dummy-data';
+import { Date } from '../date/date';
 
 type EventsListItemProps = {
   event: Event;
@@ -25,13 +26,7 @@ export const EventsListItem: React.FC<EventsListItemProps> = ({ event }) => (
       }
       description={
         <>
-          <CalendarOutlined />{' '}
-          {new Date(event.date).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          })}{' '}
-          @ {event.location}
+          <CalendarOutlined /> <Date date={event.date} /> @ {event.location}
         </>
       }
     />
