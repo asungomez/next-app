@@ -59,3 +59,18 @@ export const getFilteredEvents = (dateFilter : {year: number, month: number}) =>
 }
 
 export const getEventById = (id: string) => DUMMY_EVENTS.find((event) => event.id === id);
+
+const enrichedEvents = () => DUMMY_EVENTS.map(event => {
+  const [year, month, day] = event.date.split('-');
+  return {
+    ...event,
+    year: +year,
+    month: +month,
+    day: +day,
+  }
+});
+
+const uniqueValues = (array: any[]) => Array.from(new Set(array));
+
+export const getAllYears = () => uniqueValues(enrichedEvents().map(event => event.year));
+export const getAllMonths = (year: number) => uniqueValues(enrichedEvents().filter(event => event.year === year).map(event => event.month));
