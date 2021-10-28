@@ -1,20 +1,15 @@
 import { Breadcrumb } from 'antd';
 import BreadcrumbItem from 'antd/lib/breadcrumb/BreadcrumbItem';
-import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 
 import { getEventById } from '../../dummy-data';
+import { formatDateSlug } from '../../utils/date';
 import classes from './breadcrumbs.module.scss';
 import { BreadcrumbsItem } from './breadcrumbs-item';
 
 export type BreadcrumbItem = {
   name: string;
   url?: string;
-};
-
-const formatDate = (slug: string[2]) => {
-  const dateObject = DateTime.fromObject({ year: +slug[0], month: +slug[1] });
-  return dateObject.toFormat('MMMM yyyy');
 };
 
 export const Breadcrumbs: React.FC<{}> = () => {
@@ -43,7 +38,15 @@ export const Breadcrumbs: React.FC<{}> = () => {
         });
       }
     } else if (router.query.slug?.length === 2) {
-      breadcrumbs.push({ name: formatDate(router.query.slug as string[2]) });
+      let date: string = '';
+      try {
+        date = formatDateSlug(router.query.slug as string[]);
+      } catch (e) {
+        date = 'Error';
+      }
+      breadcrumbs.push({
+        name: date,
+      });
     }
   }
   return (
