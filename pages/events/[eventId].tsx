@@ -1,15 +1,48 @@
-import { NextPage } from 'next';
-import { useRouter } from 'next/dist/client/router';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 
 import { EventDetails } from '../../components/event-details/event-details';
 import { EventNotFound } from '../../components/event-details/event-not-found';
-import { getEventById } from '../../dummy-data';
+import { Event, getEventById, getEventIds } from '../../utils/api-utils';
 
-const EventPage: NextPage<{}> = () => {
-  const router = useRouter();
-  const eventId: string = router.query.eventId as string;
-  const event = getEventById(eventId);
+interface Props {
+  event: Event | undefined;
+}
+
+interface Params extends ParsedUrlQuery {
+  eventId: string;
+}
+
+const EventPage: NextPage<Props> = ({ event }) => {
   return event ? <EventDetails event={event} /> : <EventNotFound />;
+};
+
+export const getStaticProps: GetStaticProps<Props, Params> = async context => {
+  const eventId = context.params?.eventId;
+  let event: Event | undefined;
+  if (eventId) {
+    event = await getEventById(eventId);
+  }
+
+  return {
+    props: {
+      event,
+    },
+    revalidate: 30,
+  };
+};
+
+export const getStaticPaths: GetStaticPaths<Params> = async context => {
+  const ids = await getEventIds();
+  return {
+    paths:
+      ids?.map(id => ({
+        params: {
+          eventId: id,
+        },
+      })) ?? [],
+    fallback: 'blocking',
+  };
 };
 
 export default EventPage;

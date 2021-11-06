@@ -1,0 +1,1 @@
+export const uniqueValues: <T>(arg: T[]) => T[] = (array) => Array.from(new Set(array));

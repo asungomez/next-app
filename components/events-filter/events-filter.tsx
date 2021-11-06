@@ -2,11 +2,12 @@ import { Button, Col, Form, Row, Select } from 'antd';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 
-import { getAllMonths, getAllYears } from '../../dummy-data';
+import { Dates } from '../../utils/date';
 import { EventsFilterSelect } from './events-filter-select';
 
 type EventsFilterProps = {
   onSubmit: (year: number, month: number) => void;
+  dates: Dates;
 };
 
 const formatMonth = (month: number) => {
@@ -16,17 +17,20 @@ const formatMonth = (month: number) => {
   return dateObject.toFormat('MMMM');
 };
 
-export const EventsFilter: React.FC<EventsFilterProps> = ({ onSubmit }) => {
+export const EventsFilter: React.FC<EventsFilterProps> = ({
+  onSubmit,
+  dates,
+}) => {
   const [years, setYears] = useState<number[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>();
   const [months, setMonths] = useState<number[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>();
 
   useEffect(() => {
-    const years = getAllYears();
+    const years = Object.keys(dates).map(year => +year);
     if (years.length > 0) {
       setYears(years);
-      const months = getAllMonths(years[0]);
+      const months = dates[years[0]];
       if (months.length > 0) {
         setMonths(months);
       }
@@ -35,8 +39,11 @@ export const EventsFilter: React.FC<EventsFilterProps> = ({ onSubmit }) => {
 
   const yearChangeHandler = (year: number) => {
     setSelectedYear(year);
-    const months = getAllMonths(year);
+    const months = dates[year];
     setMonths(months);
+    if (!selectedMonth || !months.includes(selectedMonth)) {
+      setSelectedMonth(months[0]);
+    }
   };
 
   const monthChangeHandler = (month: number) => {

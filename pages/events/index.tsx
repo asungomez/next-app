@@ -1,26 +1,41 @@
 import { Typography } from 'antd';
-import type { NextPage } from 'next';
+import type { GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 
 import { EventsFilter } from '../../components/events-filter/events-filter';
 import { EventsList } from '../../components/events-list/events-list';
-import { getAllEvents } from '../../dummy-data';
+import { Event, getAllEvents } from '../../utils/api-utils';
+import { getDates } from '../../utils/date';
 const { Title } = Typography;
 
-const EventsPage: NextPage<{}> = () => {
-  const events = getAllEvents();
+interface Props {
+  events: Event[];
+}
+
+const EventsPage: NextPage<Props> = ({ events }) => {
   const router = useRouter();
   const filterHandler = (year: number, month: number) => {
     router.push(`/events/${year}/${month}`);
   };
+  const dates = getDates(events);
 
   return (
     <div>
       <Title>Browse all events</Title>
-      <EventsFilter onSubmit={filterHandler} />
+      <EventsFilter onSubmit={filterHandler} dates={dates} />
       <EventsList events={events} />
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const events = await getAllEvents();
+  return {
+    props: {
+      events,
+    },
+    revalidate: 900,
+  };
 };
 
 export default EventsPage;
