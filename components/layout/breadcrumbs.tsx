@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import { formatDateSlug } from '../../utils/date';
 import classes from './breadcrumbs.module.scss';
 import { BreadcrumbsItem } from './breadcrumbs-item';
+import { useEffect, useState } from 'react';
+import { getEventById } from '../../utils/api-utils';
 
 export type BreadcrumbItem = {
   name: string;
@@ -12,7 +14,31 @@ export type BreadcrumbItem = {
 };
 
 export const Breadcrumbs: React.FC<{}> = () => {
+  const [lastItem, setLastItem] = useState<string>();
   const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.eventId) {
+      getEventById(router.query.eventId as string)
+        .then(event => {
+          console.log(event);
+          setLastItem(event ? event.title : 'Not found')
+        })
+        .catch(() => setLastItem('Not found'));
+    }
+    else if (router.query.slug?.length === 2) {
+      try {
+        const date = formatDateSlug(router.query.slug as string[]);
+        setLastItem(date);
+      } catch (e) {
+        setLastItem('Error');
+      }
+    }
+    else {
+      setLastItem(undefined);
+    }
+  }, [router.query]);
+
   const breadcrumbs: BreadcrumbItem[] = [
     {
       name: 'Home',
@@ -25,28 +51,11 @@ export const Breadcrumbs: React.FC<{}> = () => {
       name: 'Events',
       url: '/events',
     });
-    // if (router.query.eventId) {
-    //   const event = getEventById(router.query.eventId as string);
-    //   if (event) {
-    //     breadcrumbs.push({
-    //       name: event.title,
-    //     });
-    //   } else {
-    //     breadcrumbs.push({
-    //       name: 'Not found',
-    //     });
-    //   }
-    // } else if (router.query.slug?.length === 2) {
-    //   let date: string = '';
-    //   try {
-    //     date = formatDateSlug(router.query.slug as string[]);
-    //   } catch (e) {
-    //     date = 'Error';
-    //   }
-    //   breadcrumbs.push({
-    //     name: date,
-    //   });
-    // }
+    if (lastItem) {
+      breadcrumbs.push({
+        name: lastItem,
+      });
+    }
   }
   return (
     <Breadcrumb className={classes['breadcrumbs']}>

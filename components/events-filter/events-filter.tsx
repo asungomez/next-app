@@ -41,9 +41,6 @@ export const EventsFilter: React.FC<EventsFilterProps> = ({
     setSelectedYear(year);
     const months = dates[year];
     setMonths(months);
-    if (!selectedMonth || !months.includes(selectedMonth)) {
-      setSelectedMonth(months[0]);
-    }
   };
 
   const monthChangeHandler = (month: number) => {
