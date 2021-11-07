@@ -1,6 +1,7 @@
 import { Typography } from 'antd';
 import type { GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import { EventsFilter } from '../../components/events-filter/events-filter';
 import { EventsList } from '../../components/events-list/events-list';
@@ -21,6 +22,9 @@ const EventsPage: NextPage<Props> = ({ events }) => {
 
   return (
     <div>
+      <Head>
+        <title>Events list</title>
+      </Head>
       <Title>Browse all events</Title>
       <EventsFilter onSubmit={filterHandler} dates={dates} />
       <EventsList events={events} />

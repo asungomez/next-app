@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
+import Head from 'next/head';
 
 import { EventDetails } from '../../components/event-details/event-details';
 import { EventNotFound } from '../../components/event-details/event-not-found';
@@ -14,7 +15,21 @@ interface Params extends ParsedUrlQuery {
 }
 
 const EventPage: NextPage<Props> = ({ event }) => {
-  return event ? <EventDetails event={event} /> : <EventNotFound />;
+  return event ? (
+    <>
+      <Head>
+        <title>{event.title}</title>
+      </Head>
+      <EventDetails event={event} />
+    </>
+  ) : (
+    <>
+      <Head>
+        <title>Event not found</title>
+      </Head>
+      <EventNotFound />
+    </>
+  );
 };
 
 export const getStaticProps: GetStaticProps<Props, Params> = async context => {

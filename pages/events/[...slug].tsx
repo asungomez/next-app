@@ -1,11 +1,11 @@
-import { Spin, Typography } from 'antd';
+import { Typography } from 'antd';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import Head from 'next/head';
 
 import { formatDateSlug } from '../../utils/date';
 const { Title } = Typography;
-import { useEffect, useState } from 'react';
 
 import { ErrorMessage } from '../../components/error/error-message';
 import { EventsList } from '../../components/events-list/events-list';
@@ -33,12 +33,20 @@ const EventsBySlug: NextPage<Props> = ({ events }) => {
   }
 
   return error ? (
-    <ErrorMessage message="There was an error" description={error} />
+    <>
+      <Head>
+        <title>Error</title>
+      </Head>
+      <ErrorMessage message="There was an error" description={error} />
+    </>
   ) : (
-    <div>
+    <>
+      <Head>
+        <title>Events from {date}</title>
+      </Head>
       <Title>Events from {date}</Title>
       <EventsList events={events} />
-    </div>
+    </>
   );
 };
 

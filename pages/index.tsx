@@ -1,5 +1,6 @@
 import { Typography } from 'antd';
 import type { GetStaticProps, NextPage } from 'next';
+import Head from 'next/head';
 
 import { EventsList } from '../components/events-list/events-list';
 import { Event, getFeaturedEvents } from '../utils/api-utils';
@@ -11,10 +12,13 @@ interface Props {
 
 const Home: NextPage<Props> = ({ featuredEvents }) => {
   return (
-    <div>
+    <>
+      <Head>
+        <title>Featured events</title>
+      </Head>
       <Title>Home</Title>
       <EventsList events={featuredEvents} />
-    </div>
+    </>
   );
 };
 
