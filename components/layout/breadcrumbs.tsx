@@ -21,7 +21,6 @@ export const Breadcrumbs: React.FC<{}> = () => {
     if (router.query.eventId) {
       getEventById(router.query.eventId as string)
         .then(event => {
-          console.log(event);
           setLastItem(event ? event.title : 'Not found')
         })
         .catch(() => setLastItem('Not found'));

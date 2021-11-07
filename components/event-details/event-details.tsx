@@ -1,10 +1,11 @@
-import { Card, Col, Image, List, Row, Typography } from 'antd';
+import { Card, Col, List, Row, Typography } from 'antd';
+import Image from 'next/image';
 
-import { Event } from '../../dummy-data';
 const { Title } = Typography;
 import { CalendarOutlined, EnvironmentOutlined } from '@ant-design/icons';
 
 import { Date } from '../date/date';
+import { Event } from '../../utils/api-utils';
 
 type EventDetailProps = {
   event: Event;
@@ -15,7 +16,7 @@ export const EventDetails: React.FC<EventDetailProps> = ({ event }) => (
     <Col offset={0} span={24} md={{ offset: 4, span: 16 }}>
       <Row align="middle" gutter={40} wrap>
         <Col span={24} md={{ span: 8 }}>
-          <Image src={`/${event.image}`} placeholder alt={event.title} />
+          <Image src={`/${event.image}`} alt={event.title} width={230} height={130} />
         </Col>
         <Col span={24} md={{ span: 16 }}>
           <Title>{event.title}</Title>
