@@ -10,6 +10,11 @@ export type Event = {
   isFeatured: boolean;
 };
 
+export interface Comment {
+  name: string;
+  text: string;
+};
+
 export const getAllEvents = async () : Promise<Event[]> => {
   const response = await fetch(`${process.env['NEXT_PUBLIC_FIREBASE_URL']}/events.json`);
   const data = await response.json();

@@ -1,10 +1,11 @@
-import { Typography } from 'antd';
+import { Divider, Typography } from 'antd';
 import type { GetStaticProps, NextPage } from 'next';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import { EventsFilter } from '../../components/events-filter/events-filter';
 import { EventsList } from '../../components/events-list/events-list';
+import { Newsletter } from '../../components/newsletter/newsletter';
 import { Event, getAllEvents } from '../../utils/api-utils';
 import { getDates } from '../../utils/date';
 const { Title } = Typography;
@@ -28,6 +29,8 @@ const EventsPage: NextPage<Props> = ({ events }) => {
       <Title>Browse all events</Title>
       <EventsFilter onSubmit={filterHandler} dates={dates} />
       <EventsList events={events} />
+      <Divider />
+      <Newsletter onSubmit={formData => console.log(formData)} />
     </div>
   );
 };

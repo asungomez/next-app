@@ -1,6 +1,7 @@
 import { CalendarOutlined } from '@ant-design/icons';
 import { List } from 'antd';
 import Link from 'next/link';
+
 import { Event } from '../../utils/api-utils';
 import { Date } from '../date/date';
 

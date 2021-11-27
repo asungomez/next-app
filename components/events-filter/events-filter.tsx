@@ -35,7 +35,7 @@ export const EventsFilter: React.FC<EventsFilterProps> = ({
         setMonths(months);
       }
     }
-  }, []);
+  }, [dates]);
 
   const yearChangeHandler = (year: number) => {
     setSelectedYear(year);

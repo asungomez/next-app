@@ -1,6 +1,6 @@
 import { List } from 'antd';
 
-import { Event } from '../../dummy-data';
+import { Event } from '../../utils/api-utils';
 import { EventsListItem } from './events-list-item';
 
 type EventsListProps = {

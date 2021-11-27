@@ -1,8 +1,8 @@
 import { Typography } from 'antd';
 import { GetServerSideProps, NextPage } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import Head from 'next/head';
 
 import { formatDateSlug } from '../../utils/date';
 const { Title } = Typography;

@@ -1,11 +1,16 @@
+.layout {
+  min-height: 100vh;
+}
+
 .layout__content {
-  min-height: 280px;
+  height: 100%;
   padding: 24px;
   background: #fff;
 }
 
 .layout__content__wrapper {
   padding: 0;
+  height: 100%;
 
   @media screen and (min-width: 768px) {
     padding: 0 50px;

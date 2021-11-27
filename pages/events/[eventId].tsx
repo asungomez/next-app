@@ -1,7 +1,10 @@
+import { Col, Row } from 'antd';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { ParsedUrlQuery } from 'querystring';
 import Head from 'next/head';
+import { ParsedUrlQuery } from 'querystring';
+import React from 'react';
 
+import { Comments } from '../../components/comments/comments';
 import { EventDetails } from '../../components/event-details/event-details';
 import { EventNotFound } from '../../components/event-details/event-not-found';
 import { Event, getEventById, getEventIds } from '../../utils/api-utils';
@@ -20,7 +23,16 @@ const EventPage: NextPage<Props> = ({ event }) => {
       <Head>
         <title>{event.title}</title>
       </Head>
-      <EventDetails event={event} />
+      <Row>
+        <Col offset={0} span={24} md={{ offset: 4, span: 16 }}>
+          <EventDetails event={event} />
+          <Row align="middle" gutter={40} wrap>
+            <Col span={24} md={{ span: 16, offset: 8 }}>
+              <Comments />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </>
   ) : (
     <>
